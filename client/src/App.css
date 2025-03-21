@@ -1,0 +1,29 @@
+.App-header {
+  background-color: #f3f8ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.text-center {
+  text-align: center;
+}
+
+.px-3 {
+  padding-inline: 1rem;
+}
+
+.d-block {
+  display: block;
+}
+
+button {
+  min-height: 45px;
+  font-size: 1rem;
+}
+
+input,
+select {
+  min-height: 45px;
+}
