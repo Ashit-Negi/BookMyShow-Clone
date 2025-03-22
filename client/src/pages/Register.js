@@ -1,8 +1,25 @@
 import React from "react";
 import { Input, Form, Button } from "antd";
+import { message } from "antd";
+
 import { Link } from "react-router-dom";
+import { RegisterUser } from "../apicalls/user";
 
 function Register() {
+  const submitForm = async (value) => {
+    try {
+      const response = await RegisterUser(value);
+      console.log(response);
+      if (response.success) {
+        console.log(response.message);
+        message.success(response.message);
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <header className="App-header">
@@ -11,7 +28,7 @@ function Register() {
             <h1>Register to BookMyShow</h1>
           </section>
           <section className="right-section">
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={submitForm}>
               <Form.Item
                 label="Name"
                 name="name"
