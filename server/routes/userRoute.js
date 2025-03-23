@@ -52,7 +52,9 @@ router.post("/login", async (req, res) => {
         message: "Sorry, invalid password entered!",
       });
     }
-    jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`);
+    const token = jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`, {
+      expiresIn: "1D",
+    });
 
     res.send({
       success: true,

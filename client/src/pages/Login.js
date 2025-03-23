@@ -6,10 +6,12 @@ function Login() {
   const submitForm = async (value) => {
     try {
       const response = await LoginUser(value);
+      console.log(response);
       if (response) {
         message.success(response.message);
 
-        window.location.href = "/"; // to change the router from login component to home page
+        localStorage.setItem("token", response.token);
+        // window.location.href = "/"; // to change the router from login component to home page
       } else {
         message.error(response.message);
       }
