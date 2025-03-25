@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middleware/authMiddleware");
 
 //Route for register
 router.post("/register", async (req, res) => {
@@ -60,10 +61,22 @@ router.post("/login", async (req, res) => {
       success: true,
       message: "User Logged in",
       token: token, //this is jwt token
+      user: user,
     });
   } catch (error) {
     console.log(error);
   }
+});
+
+router.get("/get-current-user", authMiddleware, async (req, res) => {
+  const user = await User.findById(req.body.userId).select("-password");
+  console.log(user);
+
+  res.send({
+    success: true,
+    message: "User Authoried for Protected Route",
+    data: user,
+  });
 });
 
 module.exports = router;

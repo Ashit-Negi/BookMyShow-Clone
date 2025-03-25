@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input, Form, Button } from "antd";
 import { message } from "antd";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../apicalls/user";
 
 function Register() {
+  const navigate = useNavigate();
+
   const submitForm = async (value) => {
     try {
       const response = await RegisterUser(value);
@@ -20,6 +22,12 @@ function Register() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <header className="App-header">

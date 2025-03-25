@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../apicalls/user";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 function Login() {
+  const navigate = useNavigate();
+
   const submitForm = async (value) => {
     try {
       const response = await LoginUser(value);
-      console.log(response);
-      if (response) {
+      // console.log(response);
+      if (response.success) {
         message.success(response.message);
 
         localStorage.setItem("token", response.token);
-        // window.location.href = "/"; // to change the router from login component to home page
+
+        window.location.href = "/"; // to change the router from login component to home page
       } else {
         message.error(response.message);
       }
@@ -19,6 +24,14 @@ function Login() {
       console.log(error);
     }
   };
+
+  // to not to navigate from home page to anyother page
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <>
       <header className="App-header">
