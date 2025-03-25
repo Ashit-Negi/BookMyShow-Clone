@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoute");
+const theaterRoutes = require("./routes/theaterRoutes");
 
 const app = express();
 mongoose
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use("/api/users", userRoutes);
+app.use("/api/theaters", theaterRoutes);
 
 app.listen(PORT, () => {
   console.log("Server Started");

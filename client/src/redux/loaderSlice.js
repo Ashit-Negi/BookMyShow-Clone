@@ -9,11 +9,11 @@ const loaderSlice = createSlice({
 
   reducers: {
     showLoading: (state) => {
+      state.loading = true;
+    },
+    hideLoading: (state) => {
       state.loading = false;
     },
-  },
-  hideLoading: (state) => {
-    state.loading = false;
   },
 });
 

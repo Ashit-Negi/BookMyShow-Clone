@@ -4,13 +4,12 @@ import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { getCurrentUser } from "../apicalls/user";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../redux/userSlice";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, message } from "antd";
 import { Header } from "antd/es/layout/layout";
 import {
   UserOutlined,
   HomeOutlined,
   LoginOutlined,
-  ProductOutlined,
   ProfileOutlined,
 } from "@ant-design/icons";
 
@@ -29,7 +28,15 @@ function ProtectedRoute({ children }) {
       icon: <UserOutlined />,
       children: [
         {
-          label: "Profile",
+          label: (
+            <span
+              onClick={() => {
+                user.isAdmin ? navigate("/admin") : navigate("/profile");
+              }}
+            >
+              My Profile
+            </span>
+          ),
           icon: <ProfileOutlined />,
         },
         {
@@ -47,11 +54,24 @@ function ProtectedRoute({ children }) {
   const getValidUser = async () => {
     try {
       dispatch(showLoading());
+
       const response = await getCurrentUser();
-      dispatch(setUser(response.data)); // this is for to use the user data anywhere in we need user detail so we are saving this inside user state
+      if (response.success) {
+        dispatch(setUser(response.data));
+        if (!response.data.isAdmin) {
+          message.error("You are not authorized for this page");
+          navigate("/");
+        }
+      } else {
+        dispatch(setUser(null));
+        message.error(response.message);
+      } // this is for to use the user data anywhere if we need user detail so we are saving this inside user state
+
       dispatch(hideLoading());
     } catch (error) {
-      console.log(error);
+      dispatch(hideLoading());
+      dispatch(setUser(null));
+      message.error(error.message);
     }
   };
 
