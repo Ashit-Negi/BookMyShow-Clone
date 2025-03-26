@@ -18,7 +18,7 @@ router.post("/add-theater", async (req, res) => {
   }
 });
 
-router.post("/udate-theater", async (req, res) => {
+router.post("/update-theater", async (req, res) => {
   try {
     await theater.findById(req.body.theatreId, req.body); // to find id in database and add in req body to update
     res.send({
