@@ -5,7 +5,7 @@ const theaterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
+  address: {
     type: String,
     required: true,
   },
@@ -29,6 +29,6 @@ const theaterSchema = new mongoose.Schema({
   },
 });
 
-const Theater = mongoose.model("theater", theaterSchema);
+const theater = mongoose.model("theater", theaterSchema);
 
-module.exports = Theater;
+module.exports = theater;

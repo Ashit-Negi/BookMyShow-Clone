@@ -1,6 +1,6 @@
 import { axiosInstance } from "./index";
 
-export const addTheater = async (value) => {
+export const addtheater = async (value) => {
   try {
     const response = await axiosInstance.post(
       "/api/theaters/add-theater",
@@ -11,9 +11,9 @@ export const addTheater = async (value) => {
     return error.response;
   }
 };
-export const udateTheater = async (value) => {
+export const updatetheater = async (value) => {
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.put(
       "/api/theaters/update-theater",
       value
     );
@@ -22,10 +22,32 @@ export const udateTheater = async (value) => {
     return error.response;
   }
 };
-export const deleteTheater = async (value) => {
+export const deletetheater = async (value) => {
+  try {
+    const response = await axiosInstance.put(
+      "/api/theaters/delete-theater",
+      value
+    );
+    return response.data;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getAlltheatersForAdmin = async (value) => {
   try {
     const response = await axiosInstance.post(
-      "/api/theaters/delete-theater",
+      "/api/theaters/get-all-theaters",
+      value
+    );
+    return response.data;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getAlltheaters = async (value) => {
+  try {
+    const response = await axiosInstance.post(
+      "/api/theaters/get-all-theaters-by-owner",
       value
     );
     return response.data;

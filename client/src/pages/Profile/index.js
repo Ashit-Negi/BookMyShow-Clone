@@ -9,7 +9,7 @@ function Profile() {
   const tabItems = [
     {
       key: "1",
-      label: "Theaters",
+      label: "theaters",
       children: <TheaterList />,
     },
     {
