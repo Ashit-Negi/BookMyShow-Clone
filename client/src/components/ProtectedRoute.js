@@ -15,7 +15,6 @@ import {
 
 function ProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navItems = [
@@ -65,6 +64,8 @@ function ProtectedRoute({ children }) {
       } else {
         dispatch(setUser(null));
         message.error(response.message);
+        localStorage.removeItem("token");
+        navigate("/login");
       } // this is for to use the user data anywhere if we need user detail so we are saving this inside user state
 
       dispatch(hideLoading());

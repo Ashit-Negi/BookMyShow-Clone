@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Admin from "./pages/Admin";
 import Profile from "./pages/Profile";
+import SingleMovie from "./pages/SingleMovie";
+
 function App() {
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.user);
-  console.log(loading);
-  console.log(user);
+  // console.log(loading);
+  // console.log(user);
   return (
     <div>
       {loading && (
@@ -31,6 +33,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/movie/:id"
+            element={
+              <ProtectedRoute>
+                <SingleMovie />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route

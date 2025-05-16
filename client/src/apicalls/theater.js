@@ -35,10 +35,11 @@ export const deletetheater = async (value) => {
 };
 export const getAlltheatersForAdmin = async (value) => {
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.get(
       "/api/theaters/get-all-theaters",
       value
     );
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.response;

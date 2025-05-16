@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoute");
 const theaterRoutes = require("./routes/theaterRoutes");
+const movieRoutes = require("./routes/movieRoutes");
+const showRoutes = require("./routes/showRoutes");
 
 const app = express();
 mongoose
@@ -21,6 +23,8 @@ app.use(express.urlencoded());
 
 app.use("/api/users", userRoutes);
 app.use("/api/theaters", theaterRoutes);
+app.use("/api/movies", movieRoutes);
+app.use("/api/shows", showRoutes);
 
 app.listen(PORT, () => {
   console.log("Server Started");

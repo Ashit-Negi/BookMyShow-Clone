@@ -19,14 +19,21 @@ import {
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 // import { useSelector } from 'react-redux';
-import { getAllMovies } from "../../apicalls/movies";
+import { getAllMovies } from "../../apicalls/movie";
+
+// import {
+//   addShow,
+//   deleteShow,
+//   getShowsByTheater,
+//   updateShow,
+// } from "../../apicalls/shows";
+import moment from "moment";
 import {
   addShow,
   deleteShow,
-  getShowsBytheater,
+  getShowsByTheatre,
   updateShow,
 } from "../../apicalls/shows";
-import moment from "moment";
 
 const ShowModal = ({
   isShowModalOpen,
@@ -50,7 +57,7 @@ const ShowModal = ({
         message.error(movieResponse.message);
       }
 
-      const showResponse = await getShowsBytheater({
+      const showResponse = await getShowsByTheatre({
         theaterId: selectedtheater._id,
       });
       if (showResponse.success) {

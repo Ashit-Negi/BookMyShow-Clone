@@ -50,7 +50,7 @@ router.put("/delete-theater", async (req, res) => {
 // this if for get all the theraters for admin route
 router.get("/get-all-theaters", async (req, res) => {
   try {
-    const alltheaters = await theater.find().populate("owner");
+    const alltheaters = await theater.find().populate("owner"); //this populate is for to get the theater owner
     res.send({
       success: true,
       message: "All theaters fetched",

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loaderSlice";
 import TheaterFormModal from "./TheaterFormModal";
 import DeletetheaterModal from "./DeleteTheaterModal";
+import ShowModal from "./ShowModal";
 
 const TheaterList = () => {
   const { user } = useSelector((state) => state.user);
@@ -99,6 +100,7 @@ const TheaterList = () => {
             >
               <DeleteOutlined />
             </Button>
+            {/* this is for to add the show button when admin approved the theater */}
             {data.isActive && (
               <Button
                 onClick={() => {
@@ -153,13 +155,13 @@ const TheaterList = () => {
         />
       )}
 
-      {/* {isShowModalOpen && (
+      {isShowModalOpen && (
         <ShowModal
           isShowModalOpen={isShowModalOpen}
           setIsShowModalOpen={setIsShowModalOpen}
           selectedtheater={selectedtheater}
         />
-      )} */}
+      )}
     </>
   );
 };
