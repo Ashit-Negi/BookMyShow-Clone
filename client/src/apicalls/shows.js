@@ -9,10 +9,10 @@ export const addShow = async (payload) => {
   }
 };
 
-export const getShowsByTheatre = async (payload) => {
+export const getShowsBytheater = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      "/api/shows/get-all-shows-by-theatre",
+      "/api/shows/get-all-shows-by-theater",
       payload
     );
     return response.data;
@@ -43,10 +43,10 @@ export const deleteShow = async (payload) => {
   }
 };
 
-export const getAllTheatresByMovie = async (payload) => {
+export const getAlltheatersByMovie = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      "/api/shows/get-all-theatres-by-movie",
+      "/api/shows/get-all-theaters-by-movie",
       payload
     );
     return response.data;

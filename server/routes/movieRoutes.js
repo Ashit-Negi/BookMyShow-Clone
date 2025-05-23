@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const Movie = require("../models/movieModel");
+const authMiddleware = require("../middleware/authMiddleware");
 
 //add movie
 router.post("/add-movie", async (req, res) => {
   try {
     const newMovie = new Movie(req.body); //creating new document row in mongodb
     await newMovie.save();
-    console.log(newMovie);
+    // console.log(newMovie);
     res.send({
       success: true,
       message: "New movie has been added!",
@@ -40,7 +41,7 @@ router.get("/get-all-movies", async (req, res) => {
 router.post("/movie/:id", async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
-    console.log(movie);
+    // console.log(movie);
     res.send({
       success: true,
       message: "Movie fetched successfully!",
@@ -55,7 +56,7 @@ router.post("/movie/:id", async (req, res) => {
 });
 
 // Update a movie
-router.put("/update-movie", async (req, res) => {
+router.put("/update-movie", authMiddleware, async (req, res) => {
   try {
     const movie = await Movie.findByIdAndUpdate(req.body.movieId, req.body);
     res.send({
@@ -72,10 +73,10 @@ router.put("/update-movie", async (req, res) => {
 });
 
 // Delete a movie
-router.put("/delete-movie", async (req, res) => {
+router.put("/delete-movie", authMiddleware, async (req, res) => {
   try {
     await Movie.findByIdAndDelete(req.body.movieId);
-    console.log(req.body.movieId);
+    // console.log(req.body.movieId);
     res.send({
       success: true,
       message: "The movie has been deleted!",

@@ -4,15 +4,15 @@ import { getMovieById } from "../apicalls/movie";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { message, Input, Divider, Row, Col } from "antd";
-// import { CalendarOutlined } from "@ant-design/icons";
+import { CalendarOutlined } from "@ant-design/icons";
 import moment from "moment";
-// import { getAllTheatresByMovie } from "../apicalls/shows";
+import { getAlltheatersByMovie } from "../apicalls/shows";
 
 const SingleMovie = () => {
   const params = useParams();
   const [movie, setMovie] = useState();
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
-  // const [theatres, setTheatres] = useState([]);
+  const [theaters, settheaters] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleDate = (e) => {
@@ -36,38 +36,38 @@ const SingleMovie = () => {
     }
   };
 
-  // const getAllTheatres = async () => {
-  //   try {
-  //     dispatch(showLoading());
-  //     const response = await getAllTheatresByMovie({ movie: params.id, date });
-  //     if (response.success) {
-  //       setTheatres(response.data);
-  //       console.log(theatres);
-  //     } else {
-  //       message.error(response.message);
-  //     }
-  //     dispatch(hideLoading());
-  //   } catch (err) {
-  //     dispatch(hideLoading());
-  //     message.err(err.message);
-  //   }
-  // };
+  const getAlltheaters = async () => {
+    try {
+      dispatch(showLoading());
+      const response = await getAlltheatersByMovie({ movie: params.id, date });
+      console.log(response.data);
+      if (response.success) {
+        settheaters(response.data);
+        console.log(theaters);
+      } else {
+        message.error(response.message);
+      }
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      message.err(err.message);
+    }
+  };
 
   useEffect(() => {
     getData();
   }, []);
-  console.log(movie);
 
-  // useEffect(() => {
-  //   getAllTheatres();
-  // }, [date]);
+  useEffect(() => {
+    getAlltheaters();
+  }, [date]);
 
   return (
     <>
       <div className="inner-container">
         {movie && (
           <div className="d-flex single-movie-div">
-            <div className="flex-shrink-0 me-3 single-movie-img">
+            <div className="flex-Shrink-0 me-3 single-movie-img">
               <img src={movie.poster} width={150} alt="Movie Poster" />
             </div>
             <div className="w-100">
@@ -86,12 +86,71 @@ const SingleMovie = () => {
                 Duration: <span>{movie.duration} Minutes</span>
               </p>
               <hr />
+              <div className="d-flex flex-column-mob align-items-center mt-3">
+                <label className="me-3 flex-shrink-0">Choose the date:</label>
+                <Input
+                  onChange={handleDate}
+                  type="date"
+                  min={moment().format("YYYY-MM-DD")}
+                  className="max-width-300 mt-8px-mob"
+                  value={date}
+                  placeholder="default size"
+                  prefix={<CalendarOutlined />}
+                />
+              </div>
             </div>
+          </div>
+        )}
+        {theaters.length === 0 && (
+          <div className="pt-3">
+            <h2 className="blue-clr">
+              Currently, no theaters available for this movie!
+            </h2>
+          </div>
+        )}
+        {theaters.length > 0 && (
+          <div className="theater-wrapper mt-3 pt-3">
+            <h2>theaters</h2>
+            {theaters.map((theater) => {
+              return (
+                <div key={theater._id}>
+                  <Row gutter={24} key={theater._id}>
+                    <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                      <h3>{theater.name}</h3>
+                      <p>{theater.address}</p>
+                    </Col>
+                    <Col xs={{ span: 24 }} lg={{ span: 16 }}>
+                      <ul className="show-ul">
+                        {theater.newShows
+                          .sort(
+                            (a, b) =>
+                              moment(a.time, "HH:mm") - moment(b.time, "HH:mm")
+                          )
+                          .map((singleShow) => {
+                            return (
+                              <li
+                                key={singleShow._id}
+                                onClick={() =>
+                                  navigate(`/book-show/${singleShow._id}`)
+                                }
+                              >
+                                {moment(singleShow.time, "HH:mm").format(
+                                  "hh:mm A"
+                                )}
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </Col>
+                  </Row>
+                  <Divider />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
     </>
   );
 };
-
 export default SingleMovie;

@@ -31,7 +31,7 @@ import moment from "moment";
 import {
   addShow,
   deleteShow,
-  getShowsByTheatre,
+  getShowsBytheater,
   updateShow,
 } from "../../apicalls/shows";
 
@@ -57,7 +57,7 @@ const ShowModal = ({
         message.error(movieResponse.message);
       }
 
-      const showResponse = await getShowsByTheatre({
+      const showResponse = await getShowsBytheater({
         theaterId: selectedtheater._id,
       });
       if (showResponse.success) {
@@ -145,6 +145,7 @@ const ShowModal = ({
       title: "Movie",
       dataIndex: "movie",
       render: (text, data) => {
+        console.log(data.movie.title);
         return data.movie.title;
       },
     },

@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const theater = require("../models/theaterModel");
+const authMiddleware = require("../middleware/authMiddleware");
 
 // add a theater
-router.post("/add-theater", async (req, res) => {
+router.post("/add-theater", authMiddleware, async (req, res) => {
   try {
     const newtheater = new theater(req.body);
     await newtheater.save();
@@ -18,7 +19,7 @@ router.post("/add-theater", async (req, res) => {
   }
 });
 
-router.put("/update-theater", async (req, res) => {
+router.put("/update-theater", authMiddleware, async (req, res) => {
   try {
     await theater.findByIdAndUpdate(req.body.theaterId, req.body); // to find id in database and add in req body to update
     res.send({
@@ -32,7 +33,7 @@ router.put("/update-theater", async (req, res) => {
     });
   }
 });
-router.put("/delete-theater", async (req, res) => {
+router.put("/delete-theater", authMiddleware, async (req, res) => {
   try {
     await theater.findByIdAndDelete(req.body.theaterId); //find id form database to delete
     res.send({
@@ -48,7 +49,7 @@ router.put("/delete-theater", async (req, res) => {
 });
 
 // this if for get all the theraters for admin route
-router.get("/get-all-theaters", async (req, res) => {
+router.get("/get-all-theaters", authMiddleware, async (req, res) => {
   try {
     const alltheaters = await theater.find().populate("owner"); //this populate is for to get the theater owner
     res.send({
@@ -65,7 +66,7 @@ router.get("/get-all-theaters", async (req, res) => {
 });
 
 // post the theaters of a specific owner
-router.post("/get-all-theaters-by-owner", async (req, res) => {
+router.post("/get-all-theaters-by-owner", authMiddleware, async (req, res) => {
   try {
     const alltheaters = await theater.find({ owner: req.body.owner });
     res.send({

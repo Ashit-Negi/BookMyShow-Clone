@@ -1,10 +1,11 @@
 const router = require("express").Router();
+const authMiddleware = require("../middleware/authMiddleware");
 const Show = require("../models/showModel");
-const Theatre = require("../models/theaterModel");
+const Theater = require("../models/theaterModel");
 
 //add a show
 
-router.post("/add-show", async (req, res) => {
+router.post("/add-show", authMiddleware, async (req, res) => {
   try {
     const newShow = new Show(req.body);
     await newShow.save();
@@ -23,7 +24,7 @@ router.post("/add-show", async (req, res) => {
 
 // Delete a show
 
-router.post("/delete-show", async (req, res) => {
+router.post("/delete-show", authMiddleware, async (req, res) => {
   try {
     await Show.findByIdAndDelete(req.body.showId);
     res.send({
@@ -40,7 +41,7 @@ router.post("/delete-show", async (req, res) => {
 
 // Update a show
 
-router.put("/update-show", async (req, res) => {
+router.put("/update-show", authMiddleware, async (req, res) => {
   try {
     await Show.findByIdAndUpdate(req.body.showId, req.body);
     res.send({
@@ -55,51 +56,48 @@ router.put("/update-show", async (req, res) => {
   }
 });
 
-// Get shows by Movie
-
-router.post("/get-all-theatres-by-movie", async (req, res) => {
+// get shows by movie
+router.post("/get-all-theaters-by-movie", authMiddleware, async (req, res) => {
   try {
     const { movie, date } = req.body;
 
-    const shows = await Show.find({ movie, date }).populate("theatre");
+    const newShows = await Show.find({ movie, date }).populate("theater");
 
-    let uniqueTheatres = [];
+    let uniqueTheaters = [];
 
-    shows.forEach((show) => {
-      let isTheatre = uniqueTheatres.find(
-        (theatre) => theatre._id === show.theatre._id
+    newShows.forEach((show) => {
+      let isTheater = uniqueTheaters.find(
+        (theater) => theater._id === show.theater._id
       );
-      if (!isTheatre) {
-        let showsOfThisTheatre = shows.filter(
-          (showObj) => showObj.theatre._id == show.theatre._id
+      if (!isTheater) {
+        let showsOfThisTheater = newShows.filter(
+          (showObj) => showObj.theater._id == show.theater._id
         );
-        uniqueTheatres.push({
-          ...show.theatre._doc,
-          shows: showsOfThisTheatre,
+        uniqueTheaters.push({
+          ...show.theater._doc,
+          newShows: showsOfThisTheater,
         });
       }
     });
-
     res.send({
       success: true,
-      message: "All theatres fetched!",
-      data: uniqueTheatres,
+      message: "All theater fetched!",
+      data: uniqueTheaters,
     });
+    // console.log(uniqueTheaters);
   } catch (error) {
     res.send({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
-
-  // let uniqueTheatres = []
 });
 
-// Get shows by Theatres
+// Get shows by theaters
 
-router.post("/get-all-shows-by-theatre", async (req, res) => {
+router.post("/get-all-shows-by-theater", authMiddleware, async (req, res) => {
   try {
-    const shows = await Show.find({ theatre: req.body.theatreId }).populate(
+    const shows = await Show.find({ theater: req.body.theaterId }).populate(
       "movie"
     );
     res.send({
@@ -107,7 +105,7 @@ router.post("/get-all-shows-by-theatre", async (req, res) => {
       message: "All shows fetched",
       data: shows,
     });
-    // console.log(req.body, res.data, shows)
+    console.log(req.body, res.data, shows);
   } catch (err) {
     res.send({
       success: false,
@@ -116,11 +114,11 @@ router.post("/get-all-shows-by-theatre", async (req, res) => {
   }
 });
 // new
-router.post("/get-show-by-id", async (req, res) => {
+router.post("/get-show-by-id", authMiddleware, async (req, res) => {
   try {
     const show = await Show.findById(req.body.showId)
       .populate("movie")
-      .populate("theatre");
+      .populate("theater");
     res.send({
       success: true,
       message: "Show fetched!",

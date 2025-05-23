@@ -19,7 +19,8 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const navItems = [
     {
-      label: "Home",
+      key: "home",
+      label: <span onClick={() => navigate("/")}>Home</span>,
       icon: <HomeOutlined />,
     },
     {

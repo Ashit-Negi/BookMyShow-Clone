@@ -8,12 +8,12 @@ function Profile() {
   const { user } = useSelector((state) => state.user);
   const tabItems = [
     {
-      key: "1",
+      key: "2",
       label: "theaters",
       children: <TheaterList />,
     },
     {
-      key: "2",
+      key: "1",
       label: "Bookings",
       children: <BookingList />,
     },
