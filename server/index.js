@@ -9,9 +9,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 mongoose
-  .connect(
-    "mongodb+srv://sashitnegi:9pdsgS0yh1fbT1wJ@cluster0.u6ypk.mongodb.net/BMS?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGOOSE_KEY)
   .then(() => console.log("DB is connected"))
   .catch((err) => {
     console.log(err);
