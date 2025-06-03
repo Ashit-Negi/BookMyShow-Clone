@@ -34,13 +34,13 @@ app.use("/api/movies", movieRoutes);
 app.use("/api/shows", showRoutes);
 app.use("/api/bookings", bookingRoutes);
 
-// React frontend ko serve karne ke liye static files ka path set karo
-app.use(express.static(path.join(__dirname, "client", "build")));
+// // React frontend ko serve karne ke liye static files ka path set karo
+// app.use(express.static(path.join(__dirname, "client", "build")));
 
-// Ye route tab chalta hai jab koi frontend ke alawa URL pe request aati hai
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+// // Ye route tab chalta hai jab koi frontend ke alawa URL pe request aati hai
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+// });
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
