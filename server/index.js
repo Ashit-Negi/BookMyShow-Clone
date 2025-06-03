@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors"); // added
+const cors = require("cors");
+const path = require("path");
 
 const userRoutes = require("./routes/userRoute");
 const theaterRoutes = require("./routes/theaterRoutes");
@@ -11,10 +12,9 @@ const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 
-// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Setup CORS - replace with your frontend URL
+// Agar frontend React app kisi URL pe deployed hai to uska URL dalna better hai, ya cors() ko configure karna
 app.use(cors());
 
 // Connect to MongoDB
@@ -34,7 +34,14 @@ app.use("/api/movies", movieRoutes);
 app.use("/api/shows", showRoutes);
 app.use("/api/bookings", bookingRoutes);
 
-// Start server
+// React frontend ko serve karne ke liye static files ka path set karo
+app.use(express.static(path.join(__dirname, "client", "build")));
+
+// Ye route tab chalta hai jab koi frontend ke alawa URL pe request aati hai
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
