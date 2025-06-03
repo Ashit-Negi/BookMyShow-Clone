@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
+  baseURL: "https://bookmyshow-clone-2.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("token")}`,
