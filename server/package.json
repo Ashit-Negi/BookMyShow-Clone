@@ -3,20 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js "
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ashit-Negi/BookMyShow-Clone.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Ashit-Negi/BookMyShow-Clone/issues"
   },
   "homepage": "https://github.com/Ashit-Negi/BookMyShow-Clone#readme",
-  "description": "",
   "dependencies": {
     "antd": "^5.24.4",
     "bcrypt": "^5.1.1",
@@ -25,9 +22,11 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
-    "nodemon": "^3.1.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "stripe": "^18.1.1"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
