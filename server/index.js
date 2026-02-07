@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 
 const userRoutes = require("./routes/userRoute");
 const theaterRoutes = require("./routes/theaterRoutes");
@@ -14,7 +13,6 @@ const app = express();
 
 app.use(express.json());
 
-// Agar frontend React app kisi URL pe deployed hai to uska URL dalna better hai, ya cors() ko configure karna
 app.use(cors());
 
 // Connect to MongoDB
