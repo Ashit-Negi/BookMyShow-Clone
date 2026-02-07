@@ -8,14 +8,36 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 //Route for register
 router.post("/register", async (req, res) => {
-  mkmsj;
+  try {
+    const userExist = await User.findOne({ email: req.body.email });
+    if (userExist) {
+      return res.send({
+        success: false,
+        message: "user already Exists",
+      });
+    }
+
+    //hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt); //this will hash the password
+    req.body.password = hashedPassword; //this will save the password to the body
+
+    const newUser = await User(req.body);
+    await newUser.save(); // this is to save in the database
+
+    res.send({
+      success: true,
+      message: "User Registered Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //login route
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    u;
     if (!user) {
       return res.send({
         success: false,
@@ -24,7 +46,7 @@ router.post("/login", async (req, res) => {
     }
     const validPassword = await bcrypt.compare(
       req.body.password,
-      user.password
+      user.password,
     ); //this is to compare password form the user and the db password
     if (!validPassword) {
       return res.send({
@@ -49,6 +71,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/get-current-user", authMiddleware, async (req, res) => {
   const user = await User.findById(req.body.userId).select("-password");
+  console.log(user);
   // console.log(user);
 
   res.send({
